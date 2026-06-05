@@ -17,12 +17,6 @@ export default function DisruptorHeader() {
     <header className="sticky top-0 z-50 w-full bg-disruptor-white border-b-4 border-disruptor-black px-6 py-4 flex items-center justify-between">
       {/* Left: Logo & Brand */}
       <div className="flex items-center gap-4">
-        {/* Rotated Black Square Logo */}
-        <div className="w-12 h-12 bg-disruptor-black flex items-center justify-center rotate-3 border-2 border-disruptor-black neo-shadow-white">
-          <svg className="w-6 h-6 text-disruptor-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        </div>
         {/* Brand Text */}
         <span className="font-jakarta font-extrabold text-[30px] text-disruptor-black uppercase tracking-tight whitespace-nowrap">
           ABHINAV SANKAR
