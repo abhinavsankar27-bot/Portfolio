@@ -12,6 +12,7 @@ import DisruptorTimerForm from './components/DisruptorTimerForm';
 import DisruptorSidebar from './components/DisruptorSidebar';
 import MarqueeTicker from './components/MarqueeTicker';
 import LiveSystemLogs from './components/LiveSystemLogs';
+import DisruptorAbout from './components/DisruptorAbout';
 import { useUiMode } from '../../context/UiModeContext';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -59,8 +60,8 @@ export default function Homepage() {
       {/* Structural Sidebar */}
       <DisruptorSidebar />
 
-      {/* Main Content Area (padding-right to account for fixed sidebar) */}
-      <div className="pr-[64px] md:pr-[200px] w-full min-h-screen" ref={mainRef}>
+      {/* Main Content Area */}
+      <div className="pb-[80px] lg:pb-0 lg:pr-[200px] w-full min-h-screen" ref={mainRef}>
         <DisruptorHeader />
         
         {mode === 'RAW' ? (
@@ -119,6 +120,7 @@ export default function Homepage() {
             <DisruptorProcess />
             <DisruptorSocialProof />
             <MarqueeTicker />
+            <DisruptorAbout />
             <DisruptorTimerForm />
           </main>
         )}

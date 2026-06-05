@@ -50,7 +50,7 @@ export default function LiveSystemLogs() {
   }, [logs]);
 
   return (
-    <div className="fixed bottom-0 right-0 w-full md:w-[400px] h-[300px] md:h-screen bg-black/90 border-l-2 border-t-2 border-[#00FF41] z-50 flex flex-col pointer-events-none p-4">
+    <div className="fixed bottom-[80px] lg:bottom-0 right-0 w-full lg:w-[400px] h-[300px] lg:h-screen bg-black/90 border-l-2 border-t-2 border-[#00FF41] z-50 flex flex-col pointer-events-none p-4">
       <div className="border-b border-[#00FF41]/50 pb-2 mb-4 flex justify-between items-center">
         <span className="font-space text-[#00FF41] text-xs font-bold tracking-widest">
           TERMINAL // LIVE_SYSTEM_LOGS
