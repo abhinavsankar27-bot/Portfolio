@@ -7,6 +7,17 @@ export default function DisruptorTimerForm() {
     minutes: 59,
     seconds: 59
   });
+  const [email, setEmail] = useState('');
+
+  const handleContact = () => {
+    if (!email) {
+      alert("PLEASE ENTER YOUR EMAIL FIRST.");
+      return;
+    }
+    const subject = encodeURIComponent("Collaboration Request");
+    const body = encodeURIComponent(`Hi Abhinav,\n\nI'm reaching out for collaboration. My email is: ${email}\n\n`);
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=abhinavsankar27@gmail.com&su=${subject}&body=${body}`, '_blank');
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -73,10 +84,15 @@ export default function DisruptorTimerForm() {
       <div className="w-full max-w-2xl bg-disruptor-white border-4 border-disruptor-black flex flex-col sm:flex-row neo-shadow">
         <input 
           type="email" 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="ENTER_YOUR_EMAIL_ADDRESS" 
-          className="flex-1 bg-transparent px-6 py-6 font-space text-disruptor-black placeholder:text-disruptor-black/50 focus:outline-none uppercase tracking-tech font-bold text-sm sm:text-base border-b-4 sm:border-b-0 sm:border-r-4 border-disruptor-black"
+          className="flex-1 bg-transparent px-6 py-6 font-space text-disruptor-black placeholder:text-disruptor-black/50 focus:outline-none tracking-tech font-bold text-sm sm:text-base border-b-4 sm:border-b-0 sm:border-r-4 border-disruptor-black"
         />
-        <button className="bg-disruptor-black text-disruptor-white px-10 py-6 font-ranchers text-2xl uppercase hover:bg-disruptor-white hover:text-disruptor-black transition-colors duration-200">
+        <button 
+          onClick={handleContact}
+          className="bg-disruptor-black text-disruptor-white px-10 py-6 font-ranchers text-2xl uppercase hover:bg-disruptor-white hover:text-disruptor-black transition-colors duration-200"
+        >
           CONTACT ME
         </button>
       </div>
