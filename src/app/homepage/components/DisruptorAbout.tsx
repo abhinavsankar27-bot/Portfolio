@@ -59,8 +59,8 @@ export default function DisruptorAbout() {
             {/* Download Resume Button */}
             <div className="mt-8">
               <a 
-                href="/Abhinav_Sankar_F_Resume.pdf" 
-                download="Abhinav_Sankar_Resume.pdf"
+                href="/Abhinav_Sankar_Resume_FullStack.docx" 
+                download="Abhinav_Sankar_Resume_FullStack.docx"
                 className="inline-flex items-center gap-4 bg-disruptor-volt text-disruptor-black px-10 py-6 font-ranchers text-3xl uppercase border-4 border-disruptor-black neo-shadow-hover hover:bg-disruptor-black hover:text-disruptor-volt transition-colors duration-200 cursor-pointer"
               >
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square">
