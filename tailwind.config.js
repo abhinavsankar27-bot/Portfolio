@@ -8,35 +8,36 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: '#0A0A0F',
-        'bg-secondary': '#0F0F18',
-        'bg-card': '#12121C',
-        accent: '#00FF94',
-        'accent-dim': 'rgba(0, 255, 148, 0.12)',
-        'fg-muted': 'rgba(255, 255, 255, 0.5)',
-        'fg-subtle': 'rgba(255, 255, 255, 0.18)',
-        border: 'rgba(255, 255, 255, 0.08)',
-        'border-accent': 'rgba(0, 255, 148, 0.3)',
+        'disruptor-black': '#000000',
+        'disruptor-dark': '#121212',
+        'disruptor-white': '#FFFFFF',
+        'disruptor-volt': '#CCFF00',
       },
       fontFamily: {
-        display: ['DM Sans', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        ranchers: ['var(--font-ranchers)', 'cursive'],
+        space: ['var(--font-space-mono)', 'monospace'],
+        jakarta: ['var(--font-plus-jakarta)', 'sans-serif'],
+        archivo: ['var(--font-archivo)', 'sans-serif'],
       },
-      animation: {
-        'blink': 'blink 1s step-end infinite',
-        'float': 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s ease-in-out infinite',
+      boxShadow: {
+        'neo-black': '8px 8px 0px 0px #000000',
+        'neo-white': '8px 8px 0px 0px #FFFFFF',
+      },
+      letterSpacing: {
+        'tech': '0.1em',
+      },
+      lineHeight: {
+        'tight-heading': '0.85',
       },
       keyframes: {
-        blink: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-12px)' },
-        },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        }
       },
+      animation: {
+        marquee: 'marquee 20s linear infinite',
+      }
     },
   },
   plugins: [],

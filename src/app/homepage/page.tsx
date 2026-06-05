@@ -1,152 +1,128 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import HeroSection from './components/HeroSection';
-import AboutSkillsSection from './components/AboutSkillsSection';
-import ProjectsSection from './components/ProjectsSection';
-import CredentialsSection from './components/CredentialsSection';
-import ContactSection from './components/ContactSection';
-import LoadingScreen from './components/LoadingScreen';
-import ShaderBackground from './components/ShaderBackground';
-import AdvancedCursor from './components/AdvancedCursor';
-import ThreeEnvironment from './components/ThreeEnvironment';
-import SectionTransition from './components/SectionTransition';
-import { soundEngine } from '@/utils/soundEngine';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import DisruptorHeader from './components/DisruptorHeader';
+import DisruptorHero from './components/DisruptorHero';
+import DisruptorSocialProof from './components/DisruptorSocialProof';
+import DisruptorComparison from './components/DisruptorComparison';
+import DisruptorProcess from './components/DisruptorProcess';
+import DisruptorTimerForm from './components/DisruptorTimerForm';
+import DisruptorSidebar from './components/DisruptorSidebar';
+import MarqueeTicker from './components/MarqueeTicker';
+import LiveSystemLogs from './components/LiveSystemLogs';
+import { useUiMode } from '../../context/UiModeContext';
 
-const SECTIONS = [
-  { id: 'about', label: 'ABOUT & SKILLS', index: 0 },
-  { id: 'projects', label: 'PROJECTS', index: 1 },
-  { id: 'credentials', label: 'CREDENTIALS', index: 2 },
-  { id: 'contact', label: 'CONTACT', index: 3 },
-];
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Homepage() {
-  const [loading, setLoading] = useState(true);
   const mainRef = useRef<HTMLDivElement>(null);
-
-  const handleLoadComplete = async () => {
-    setLoading(false);
-    // Init Lenis smooth scroll after loading
-    const { default: Lenis } = await import('lenis');
-    const { gsap } = await import('gsap');
-    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-    gsap.registerPlugin(ScrollTrigger);
-
-    const lenis = new Lenis({
-      duration: 1.6,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-
-    lenis.on('scroll', ScrollTrigger.update);
-
-    gsap.ticker.add((time: number) => {
-      lenis.raf(time * 1000);
-    });
-    gsap.ticker.lagSmoothing(0);
-
-    // Magnetic buttons
-    const magneticEls = document.querySelectorAll<HTMLElement>('.magnetic-btn');
-    magneticEls.forEach((el) => {
-      const handleMove = (e: MouseEvent) => {
-        const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        const dist = Math.sqrt(x * x + y * y);
-        const maxDist = Math.max(rect.width, rect.height) * 0.8;
-        if (dist < maxDist) {
-          const strength = (maxDist - dist) / maxDist;
-          gsap.to(el, { x: x * 0.35 * strength, y: y * 0.25 * strength, duration: 0.4, ease: 'power3.out' });
-        }
-      };
-      const handleLeave = () => {
-        gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.4)' });
-      };
-      el.addEventListener('mousemove', handleMove);
-      el.addEventListener('mouseleave', handleLeave);
-    });
-
-    // Cinematic section reveal animations
-    const sections = document.querySelectorAll<HTMLElement>('.cinematic-section');
-    sections.forEach((section) => {
-      gsap.fromTo(
-        section,
-        { opacity: 0, scale: 0.98, y: 40 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 1.4,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 85%',
-            once: true,
-          },
-        }
-      );
-    });
-  };
+  const { mode } = useUiMode();
 
   useEffect(() => {
-    const initAudio = () => {
-      soundEngine.init();
-      window.removeEventListener('click', initAudio);
-      window.removeEventListener('keydown', initAudio);
-    };
-    window.addEventListener('click', initAudio);
-    window.addEventListener('keydown', initAudio);
+    if (!mainRef.current || mode === 'RAW') return;
+
+    // Harsh brutalist reveal animation for sections
+    const sections = mainRef.current.querySelectorAll('section');
+    
+    sections.forEach((section) => {
+      // Set initial state (hidden & harsh scaled)
+      gsap.set(section, { opacity: 0, scale: 0.95, filter: 'contrast(200%) grayscale(100%)' });
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 85%',
+        onEnter: () => {
+          gsap.to(section, {
+            opacity: 1,
+            scale: 1,
+            filter: 'contrast(100%) grayscale(0%)',
+            duration: 0.3,
+            ease: "steps(5)", // Mechanical, choppy ease
+            overwrite: true
+          });
+        },
+      });
+    });
+
     return () => {
-      window.removeEventListener('click', initAudio);
-      window.removeEventListener('keydown', initAudio);
+      ScrollTrigger.getAll().forEach(t => t.kill());
     };
-  }, []);
+  }, [mode]);
 
   return (
-    <>
-      {/* Advanced cursor — desktop only */}
-      <AdvancedCursor />
+    <div className={`relative min-h-screen font-jakarta ${mode === 'RAW' ? 'bg-black text-[#00FF41] selection:bg-[#00FF41] selection:text-black' : 'bg-disruptor-dark selection:bg-disruptor-volt selection:text-disruptor-black'}`}>
+      
+      {mode === 'RAW' && <LiveSystemLogs />}
 
-      {/* Loading screen */}
-      {loading && <LoadingScreen onComplete={handleLoadComplete} />}
+      {/* Structural Sidebar */}
+      <DisruptorSidebar />
 
-      {/* GLSL shader background */}
-      <ShaderBackground />
-
-      {/* Three.js 3D environment */}
-      {!loading && <ThreeEnvironment />}
-
-      <main
-        ref={mainRef}
-        className="relative min-h-screen"
-        style={{ background: 'transparent', color: '#FFFFFF' }}
-      >
-        {/* Noise texture overlay */}
-        <div className="noise-overlay" aria-hidden="true" />
-
-        <Header />
-
-        <h1 className="sr-only">
-          Abhinav Sankar — Cloud and AI Systems Engineer building scalable backend and ML applications
-        </h1>
-
-        <HeroSection />
-
-        {/* Sections with cinematic transitions */}
-        {SECTIONS.map((s) => (
-          <div key={s.id} className="cinematic-section" style={{ position: 'relative', opacity: 0 }}>
-            <SectionTransition sectionId={s.id} label={s.label} index={s.index} />
-            {s.id === 'about' && <AboutSkillsSection />}
-            {s.id === 'projects' && <ProjectsSection />}
-            {s.id === 'credentials' && <CredentialsSection />}
-            {s.id === 'contact' && <ContactSection />}
+      {/* Main Content Area (padding-right to account for fixed sidebar) */}
+      <div className="pr-[64px] md:pr-[200px] w-full min-h-screen" ref={mainRef}>
+        <DisruptorHeader />
+        
+        {mode === 'RAW' ? (
+          <div className="w-full min-h-[90vh] p-8 md:p-12 pr-[64px] md:pr-[420px] bg-black">
+            <pre className="font-space text-[#00FF41] text-xs md:text-sm leading-relaxed overflow-x-auto whitespace-pre-wrap">
+              {JSON.stringify({
+                status: 200,
+                message: "OK",
+                timestamp: new Date().toISOString(),
+                data: {
+                  developer: {
+                    name: "Abhinav Sankar",
+                    role: "Full Stack Developer",
+                    location: "Thrissur, Kerala",
+                    skills: {
+                      frontend: ["React.js", "Next.js", "JavaScript (ES6+)"],
+                      backend: ["Node.js", "Python", "Flask", "Express.js"],
+                      databases: ["MongoDB", "MySQL"],
+                      infrastructure: ["RabbitMQ", "REST APIs", "Role-Based Access Control"]
+                    }
+                  },
+                  projects: [
+                    {
+                      id: "1",
+                      name: "EventBOOK",
+                      stack: ["React.js", "Flask", "MongoDB"],
+                      architecture: "RESTful API with RBAC enforcing UI permissions."
+                    },
+                    {
+                      id: "2",
+                      name: "Smart E-Commerce",
+                      stack: ["Node.js", "Express.js", "RabbitMQ", "MySQL"],
+                      architecture: "Async event-driven microservices for cart and payment."
+                    },
+                    {
+                      id: "3",
+                      name: "Flight Price Predictor",
+                      stack: ["Python", "Machine Learning", "HTML5", "CSS3"],
+                      architecture: "ML Model inference exposed via REST endpoint."
+                    }
+                  ],
+                  education: "MCA - Cloud Computing (2025)",
+                  links: {
+                    github: "github.com/abhinavsankar27-bot"
+                  }
+                }
+              }, null, 2)}
+            </pre>
           </div>
-        ))}
-
-        <Footer />
-      </main>
-    </>
+        ) : (
+          <main className="w-full">
+            <DisruptorHero />
+            <MarqueeTicker />
+            <DisruptorComparison />
+            <MarqueeTicker />
+            <DisruptorProcess />
+            <DisruptorSocialProof />
+            <MarqueeTicker />
+            <DisruptorTimerForm />
+          </main>
+        )}
+      </div>
+    </div>
   );
-}
+}

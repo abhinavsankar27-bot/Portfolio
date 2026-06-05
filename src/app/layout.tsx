@@ -1,6 +1,31 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
+import { Ranchers, Space_Mono, Plus_Jakarta_Sans, Archivo } from 'next/font/google';
+import BrutalistCursor from './homepage/components/BrutalistCursor';
+import { UiModeProvider } from '../context/UiModeContext';
 import '../styles/tailwind.css';
+
+const ranchers = Ranchers({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-ranchers',
+});
+
+const spaceMono = Space_Mono({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-space-mono',
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-plus-jakarta',
+});
+
+const archivo = Archivo({
+  subsets: ['latin'],
+  variable: '--font-archivo',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -24,11 +49,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}
-
-        <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fabhinavsan6203back.builtwithrocket.new&_be=https%3A%2F%2Fappanalytics.rocket.new&_v=0.1.18" />
-        <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2" /></body>
+    <html lang="en" className={`${ranchers.variable} ${spaceMono.variable} ${jakarta.variable} ${archivo.variable}`}>
+      <body className="font-jakarta bg-disruptor-dark text-disruptor-white antialiased">
+        <UiModeProvider>
+          <BrutalistCursor />
+          {children}
+          <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fabhinavsan6203back.builtwithrocket.new&_be=https%3A%2F%2Fappanalytics.rocket.new&_v=0.1.18" />
+          <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2" />
+        </UiModeProvider>
+      </body>
     </html>
   );
 }
