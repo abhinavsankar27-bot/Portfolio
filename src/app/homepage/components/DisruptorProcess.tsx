@@ -83,7 +83,7 @@ export default function DisruptorProcess() {
                 <span className="font-space text-xs text-disruptor-white uppercase tracking-widest">
                   View Repository
                 </span>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0033FF" strokeWidth="2" strokeLinecap="square">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AEE2FF" strokeWidth="2" strokeLinecap="square">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </div>

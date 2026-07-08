@@ -11,7 +11,7 @@ module.exports = {
         'disruptor-black': '#000000',
         'disruptor-dark': '#F4F4F0',
         'disruptor-white': '#FFFFFF',
-        'disruptor-volt': '#0033FF',
+        'disruptor-volt': '#AEE2FF',
       },
       fontFamily: {
         ranchers: ['var(--font-ranchers)', 'cursive'],

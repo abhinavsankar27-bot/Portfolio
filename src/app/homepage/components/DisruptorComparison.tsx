@@ -41,10 +41,10 @@ export default function DisruptorComparison() {
           
           {/* Category (Left) */}
           <div className="flex-1 bg-disruptor-black p-12 md:p-24 border-b-4 md:border-b-0 md:border-r-4 border-disruptor-black flex flex-col justify-center">
-            <span className="font-space uppercase font-bold text-sm tracking-tech text-[#475569] mb-4">
+            <span className="font-space uppercase font-bold text-sm tracking-tech text-disruptor-white mb-4">
               {row.labelCat}
             </span>
-            <h3 className="font-ranchers text-[60px] md:text-[80px] text-[#475569] leading-tight-heading uppercase">
+            <h3 className="font-ranchers text-[60px] md:text-[80px] text-disruptor-white leading-tight-heading uppercase">
               {row.titleCat}
             </h3>
           </div>
