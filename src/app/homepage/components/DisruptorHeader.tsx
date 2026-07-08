@@ -29,7 +29,7 @@ export default function DisruptorHeader() {
         {/* DEV MODE Toggle */}
         <button 
           onClick={toggleMode}
-          className={`px-3 py-2 md:px-4 md:py-2 border-4 border-disruptor-black font-space font-bold text-xs md:text-sm uppercase tracking-widest transition-colors duration-200 neo-shadow-hover ${mode === 'RAW' ? 'bg-disruptor-black text-[#CCFF00]' : 'bg-disruptor-white text-disruptor-black hover:bg-disruptor-black hover:text-disruptor-white'}`}
+          className={`px-3 py-2 md:px-4 md:py-2 border-4 border-disruptor-black font-space font-bold text-xs md:text-sm uppercase tracking-widest transition-colors duration-200 neo-shadow-hover ${mode === 'RAW' ? 'bg-disruptor-black text-[#00FF41]' : 'bg-disruptor-white text-disruptor-black hover:bg-disruptor-black hover:text-disruptor-white'}`}
         >
           {mode === 'RAW' ? '> SYS.RAW' : '> SYS.RENDER'}
         </button>

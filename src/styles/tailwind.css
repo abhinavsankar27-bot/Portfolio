@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-disruptor-dark text-disruptor-white font-jakarta;
+    @apply bg-disruptor-dark text-disruptor-black font-jakarta;
     /* Hide default cursor on desktop for our custom cursor */
     @media (pointer: fine) {
       cursor: none;

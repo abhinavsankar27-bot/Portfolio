@@ -53,7 +53,7 @@ export default function Homepage() {
   }, [mode]);
 
   return (
-    <div className={`relative min-h-screen font-jakarta ${mode === 'RAW' ? 'bg-black text-[#00FF41] selection:bg-[#00FF41] selection:text-black' : 'bg-disruptor-dark selection:bg-disruptor-volt selection:text-disruptor-black'}`}>
+    <div className={`relative min-h-screen font-jakarta ${mode === 'RAW' ? 'bg-black text-[#00FF41] selection:bg-[#00FF41] selection:text-black' : 'bg-disruptor-dark selection:bg-disruptor-volt selection:text-disruptor-white'}`}>
       
       {mode === 'RAW' && <LiveSystemLogs />}
 

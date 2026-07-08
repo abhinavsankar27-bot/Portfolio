@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${ranchers.variable} ${spaceMono.variable} ${jakarta.variable} ${archivo.variable}`}>
-      <body className="font-jakarta bg-disruptor-dark text-disruptor-white antialiased">
+      <body className="font-jakarta bg-disruptor-dark text-disruptor-black antialiased">
         <UiModeProvider>
           <BrutalistCursor />
           {children}

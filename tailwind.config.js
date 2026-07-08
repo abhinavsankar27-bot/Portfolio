@@ -9,9 +9,9 @@ module.exports = {
     extend: {
       colors: {
         'disruptor-black': '#000000',
-        'disruptor-dark': '#121212',
+        'disruptor-dark': '#F4F4F0',
         'disruptor-white': '#FFFFFF',
-        'disruptor-volt': '#CCFF00',
+        'disruptor-volt': '#0033FF',
       },
       fontFamily: {
         ranchers: ['var(--font-ranchers)', 'cursive'],
