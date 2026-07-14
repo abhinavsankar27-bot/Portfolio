@@ -1,0 +1,93 @@
+ABHINAV SANKAR
+Kerala,Indiaabhinavsankar27@gmail.com+91 6238505168in/theabhinavsankarabhinavsankar-portfolio.vercel.app
+SUMMARY
+Creative and detail-oriented Full Stack Developer with hands-on experience in Frontend Development, Backend Development, UI/UX Design, 
+Cloud Computing, and Machine Learning through academic projects and production-style web application development. Experienced in building
+scalable applications using React.js, Next.js, Node.js, Express.js, Python, Flask, MongoDB, MySQL, and REST API Development, while applying 
+Object-Oriented Programming (OOP), Software Development Life Cycle (SDLC), Problem Solving, Data Structures, and Algorithms to deliver
+efficient software solutions.
+Skilled in developing responsive and accessible user interfaces, implementing Role-Based Access Control (RBAC), designing interactive user
+experiences using Figma, and deploying applications using Amazon Web Services (AWS), Docker, Vercel, and Netlify. Passionate about UI/UX
+Design, Game Development, Game Testing (QA), Cloud Technologies, and modern software engineering practices. Familiar with Unity, Unreal
+Engine 5, Blender, and Adobe Photoshop, with a strong interest in building immersive digital experiences and scalable software products.
+SKILLS
+Full Stack Development
+Full Stack Development, Frontend Development, Backend Development, REST API Development, Object-Oriented Programming (OOP), Problem
+Solving, Software Development Life Cycle (SDLC), Responsive Web Development, Application Development, Debugging & Troubleshooting
+Frontend & UI/UX Design
+React Development, Next.js Development, Responsive Web Design, Accessible UI Design (WCAG), UI/UX Design, Wireframing, Prototyping, User
+Interface Development, User Experience Design, Interaction Design
+Cloud & DevOps
+Cloud Computing Fundamentals, Amazon Web Services (AWS), Docker, Containerization, Continuous Integration & Continuous Deployment (CI/CD),
+Linux, Deployment Automation, Cloud-Native Development
+Game Development & Design
+Game Design, Game Development Fundamentals, Game Testing (QA), Level Design Fundamentals, Gameplay Mechanics, Interactive Media Design,
+Quality Assurance, User Experience Testing
+Software Engineering Practices
+Requirement Analysis, Version Control, Agile Methodology, API Integration, Authentication & Authorization, Role-Based Access Control (RBAC),
+Cross-functional Collaboration, Documentation
+Professional Skills
+Analytical Thinking, Creativity, Communication, Problem Solving, Team Collaboration, Critical Thinking, Adaptability, Time Management,
+Continuous Learning
+TECHNICAL SKILLS
+Programming Languages: Python, JavaScript (ES6+), SQL, HTML5, CSS3
+Frontend Technologies: React.js, Next.js, HTML5, CSS3, Responsive Web Design
+Backend Frameworks: Node.js, Express.js, Flask
+Databases: MongoDB, MySQL
+Cloud Platforms: Amazon Web Services (AWS), EC2, S3, Lambda
+DevOps & Containerization: Docker, RabbitMQ, Vercel, Netlify
+UI/UX & Design Tools: Figma, Adobe Photoshop
+Game Development Tools: Unity, Unreal Engine 5, Blender
+Version Control: Git, GitHub
+API Development & Testing: REST APIs, Postman
+Development Tools: Visual Studio Code (VS Code)
+AI & Machine Learning: Python Machine Learning Fundamentals
+PROJECT
+EventBOOK – Full Stack Event Booking Platform
+React.js | Python | Flask | MongoDB | REST APIs | RBAC | Figma
+•Developed a production-style Full Stack Event Booking Platform supporting organizers and customers through secure role-based workflows.
+•Designed responsive and accessible user interfaces using React.js and Figma, improving overall user experience.
+•Implemented secure Role-Based Access Control (RBAC) to manage user permissions and protect organizer functionalities.
+•Developed scalable REST APIs using Flask and integrated MongoDB for efficient data management.
+•Built a real-time organizer dashboard for event tracking, booking management, and capacity monitoring.
+•Performed testing, debugging, and optimization to improve application reliability and user experience.
+•Documented application architecture, API endpoints, and software implementation following Software Development Life Cycle (SDLC) practices.
+Smart E-Commerce Checkout Workflow
+Node.js | Express.js | MySQL | RabbitMQ | JavaScript | React.js
+•Developed a Microservices-Based E-Commerce Checkout System using Node.js, Express.js, and MySQL.
+•Implemented asynchronous communication using RabbitMQ, improving scalability and fault tolerance.
+•Designed a multi-step checkout interface using React.js with responsive validation and real-time feedback.
+•Developed modular REST APIs supporting payment, inventory, cart, and discount management.
+•Optimized database interactions and backend workflows to improve transaction efficiency.
+•Performed API testing, debugging, and validation to ensure reliable business operations.
+•Documented system architecture, API specifications, and deployment workflows.
+Flight Price Predictor
+Python | Machine Learning | JavaScript | HTML5 | CSS3 | REST APIs
+•Developed a Machine Learning application predicting flight ticket prices using Python and supervised learning techniques.
+•Designed responsive and accessible web interfaces following WCAG 2.1 accessibility standards.
+•ImplementedREST APIs connecting machine learning predictions with frontend user interfaces.
+•Optimized user interaction through progressive data entry and real-time prediction feedback.
+•Performed model evaluation and debugging to improve prediction reliability.
+•Enhanced application usability through interactive result visualization and error handling.
+•Documented machine learning workflow, API integration, and application architecture.
+EDUCATION
+Master of Computer Applications (Cloud Computing)-Pursuing 
+LEAD College (Autonomous), Kerala• Kerala , India 
+Bachelor of Computer Applications (BCA)
+Tharananellur Arts and Science College• Kerala, India • 2025
+CERTIFICATIONS
+React – Frontend Development
+Flutter – Cross-Platform Mobile Application Development
+Ethical Hacking – Cybersecurity Fundamentals & Penetration Testing
+Internet of Things (IoT) – Connected Systems & Embedded Device Programming
+ACHIEVEMENTS
+Built multiple production-style Full Stack Applications demonstrating modern web architecture and scalable software
+engineering practices.
+Participated in the Zomathon – The Data Hackathon (Coding Ninjas × Eternal/Zomato), applying analytical thinking and
+collaborative problem-solving to real-world data challenges.
+Developed and deployed an AI-powered Full Stack Application during the Vibe Coding Hackathon – GetWork.ai (2025)
+under strict project timelines.
+Maintains an active GitHub Portfolio with 6+ full-stack projects, showcasing clean code practices, version control,
+architecture documentation, and API design.
+Designed accessible and responsive web interfaces following WCAG 2.1 standards to improve usability and user
+experience.

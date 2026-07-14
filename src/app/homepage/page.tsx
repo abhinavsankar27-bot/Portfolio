@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { AnimatePresence } from 'framer-motion';
+import BrutalistLoader from './components/BrutalistLoader';
 import DisruptorHeader from './components/DisruptorHeader';
 import DisruptorHero from './components/DisruptorHero';
 import DisruptorSocialProof from './components/DisruptorSocialProof';
@@ -20,6 +22,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Homepage() {
   const mainRef = useRef<HTMLDivElement>(null);
   const { mode } = useUiMode();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!mainRef.current || mode === 'RAW') return;
@@ -55,6 +58,12 @@ export default function Homepage() {
   return (
     <div className={`relative min-h-screen font-jakarta ${mode === 'RAW' ? 'bg-black text-[#00FF41] selection:bg-[#00FF41] selection:text-black' : 'bg-disruptor-dark selection:bg-disruptor-volt selection:text-disruptor-white'}`}>
       
+      <AnimatePresence>
+        {isLoading && mode !== 'RAW' && (
+          <BrutalistLoader onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
+
       {mode === 'RAW' && <LiveSystemLogs />}
 
       {/* Structural Sidebar */}

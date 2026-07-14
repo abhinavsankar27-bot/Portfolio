@@ -4,33 +4,33 @@ import React, { useEffect, useRef } from 'react';
 
 const skillCategories = [
   {
-    label: 'Backend & Dev',
+    label: 'Frontend & UI/UX',
     color: '#00FF94',
     skills: [
-      { name: 'Python', level: 88 },
-      { name: 'Flask / REST APIs', level: 82 },
-      { name: 'Java', level: 70 },
-      { name: 'SQL & DBMS', level: 75 },
-      { name: 'HTML / CSS', level: 80 },
+      { name: 'React.js / Next.js', level: 90 },
+      { name: 'JavaScript (ES6+)', level: 85 },
+      { name: 'HTML5 / CSS3', level: 92 },
+      { name: 'Figma / UI Design', level: 80 },
     ],
   },
   {
-    label: 'AI & Data',
+    label: 'Backend & Databases',
     color: '#7C8FFF',
     skills: [
-      { name: 'Machine Learning', level: 78 },
-      { name: 'Data Science', level: 72 },
-      { name: 'Artificial Intelligence', level: 70 },
-      { name: 'Big Data Basics', level: 60 },
+      { name: 'Node.js / Express', level: 85 },
+      { name: 'Python / Flask', level: 80 },
+      { name: 'MongoDB', level: 75 },
+      { name: 'MySQL / SQL', level: 78 },
     ],
   },
   {
-    label: 'Cloud & Tools',
+    label: 'Cloud & DevOps',
     color: '#FF8A65',
     skills: [
-      { name: 'AWS (Learning)', level: 55 },
-      { name: 'Google Cloud (Learning)', level: 52 },
+      { name: 'AWS (EC2, S3, Lambda)', level: 70 },
+      { name: 'Docker / Containerization', level: 65 },
       { name: 'Git & GitHub', level: 85 },
+      { name: 'Vercel & Netlify', level: 90 },
     ],
   },
 ];

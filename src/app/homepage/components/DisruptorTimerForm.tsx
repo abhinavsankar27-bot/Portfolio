@@ -1,101 +1,262 @@
-import React, { useState, useEffect } from 'react';
+"use client";
+
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+
+// Magnetic Button Wrapper
+function MagneticButton({ children, onClick, className }: any) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const springConfig = { stiffness: 150, damping: 15, mass: 0.1 };
+  
+  const springX = useSpring(0, springConfig);
+  const springY = useSpring(0, springConfig);
+
+  const handleMouse = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const { clientX, clientY } = e;
+    const { height, width, left, top } = ref.current.getBoundingClientRect();
+    const middleX = clientX - (left + width / 2);
+    const middleY = clientY - (top + height / 2);
+    
+    // Magnetic pull strength
+    springX.set(middleX * 0.3);
+    springY.set(middleY * 0.3);
+  };
+
+  const reset = () => {
+    springX.set(0);
+    springY.set(0);
+  };
+
+  return (
+    <motion.button
+      ref={ref}
+      onClick={onClick}
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      style={{ x: springX, y: springY }}
+      className={className}
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+// 3D Tilt Card Component
+function TiltCard({ children, className }: any) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], [10, -10]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [-10, 10]);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ perspective: 1200 }}
+      className="w-full max-w-4xl mb-20 relative z-10"
+    >
+      <motion.div 
+        className={className}
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+      >
+        {children}
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export default function DisruptorTimerForm() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 14,
-    hours: 23,
-    minutes: 59,
-    seconds: 59
-  });
   const [email, setEmail] = useState('');
+  const [text, setText] = useState('');
+  const [lineIndex, setLineIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [hex, setHex] = useState('');
+
+  const terminalLines = [
+    "> SYSTEM BOOT SEQUENCE INITIATED...",
+    "> ALLOCATING CLOUD INFRASTRUCTURE... [AWS OK]",
+    "> INITIALIZING AI MODELS... [TENSORFLOW OK]",
+    "> ESTABLISHING BACKEND SERVICES... [FLASK OK]",
+    "> STATUS: 100% OPERATIONAL & OPTIMIZED.",
+    "> AWAITING NEW COLLABORATIVE DIRECTIVES..."
+  ];
+
+  // Hex data stream effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      let newHex = '';
+      for (let i = 0; i < 6; i++) {
+        newHex += Math.floor(Math.random() * 16777215).toString(16).toUpperCase().padStart(6, '0') + '\n';
+      }
+      setHex(newHex);
+    }, 150);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Typewriter effect
+  useEffect(() => {
+    if (lineIndex < terminalLines.length) {
+      if (charIndex < terminalLines[lineIndex].length) {
+        const timeout = setTimeout(() => {
+          setText(prev => prev + terminalLines[lineIndex][charIndex]);
+          setCharIndex(c => c + 1);
+        }, Math.random() * 30 + 20); // Random typing speed
+        return () => clearTimeout(timeout);
+      } else {
+        const timeout = setTimeout(() => {
+          setText(prev => prev + "\n");
+          setLineIndex(l => l + 1);
+          setCharIndex(0);
+        }, 500); // Pause at end of line
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      const timeout = setTimeout(() => {
+        setText('');
+        setLineIndex(0);
+        setCharIndex(0);
+      }, 6000); // Wait 6 seconds before looping
+      return () => clearTimeout(timeout);
+    }
+  }, [lineIndex, charIndex]);
 
   const handleContact = () => {
     if (!email) {
       alert("PLEASE ENTER YOUR EMAIL FIRST.");
       return;
     }
-    const subject = encodeURIComponent("Collaboration Request");
-    const body = encodeURIComponent(`Hi Abhinav,\n\nI'm reaching out for collaboration. My email is: ${email}\n\n`);
+    const subject = encodeURIComponent("Portfolio Inquiry: Let's Collaborate");
+    const template = `Hi Abhinav,
+
+I came across your portfolio and would love to discuss a potential opportunity with you. 
+
+Here are a few quick details about the role/project:
+- Company/Project Name: [Insert Name]
+- Role: [Insert Role]
+- Next Steps: [e.g., Let's schedule a brief call next week]
+
+Looking forward to connecting!
+
+Best regards,
+[Your Name]
+Contact Email: ${email}`;
+
+    const body = encodeURIComponent(template);
     window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=abhinavsankar27@gmail.com&su=${subject}&body=${body}`, '_blank');
   };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        let { days, hours, minutes, seconds } = prev;
-        if (seconds > 0) {
-          seconds--;
-        } else {
-          seconds = 59;
-          if (minutes > 0) {
-            minutes--;
-          } else {
-            minutes = 59;
-            if (hours > 0) {
-              hours--;
-            } else {
-              hours = 23;
-              if (days > 0) {
-                days--;
-              }
-            }
-          }
-        }
-        return { days, hours, minutes, seconds };
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const timeBlocks = [
-    { label: "DAYS", value: timeLeft.days.toString().padStart(2, '0') },
-    { label: "HRS", value: timeLeft.hours.toString().padStart(2, '0') },
-    { label: "MIN", value: timeLeft.minutes.toString().padStart(2, '0') },
-    { label: "SEC", value: timeLeft.seconds.toString().padStart(2, '0') },
-  ];
-
   return (
-    <section id="contact" className="w-full bg-disruptor-volt border-b-8 border-disruptor-black py-24 flex flex-col items-center justify-center px-6">
+    <section id="contact" className="w-full bg-disruptor-volt border-y-8 border-disruptor-black py-32 flex flex-col items-center justify-center px-6 relative overflow-hidden">
       
-      <div className="text-center mb-12">
-        <h2 className="font-ranchers text-[60px] md:text-[80px] text-disruptor-black uppercase leading-tight-heading mb-4" style={{ textShadow: '4px 4px 0 #FFFFFF' }}>
-          AVAILABLE FOR HIRE
-        </h2>
-        <p className="font-space font-bold uppercase tracking-tech text-disruptor-black">
-          // REACH OUT FOR COLLABORATION //
-        </p>
-      </div>
+      {/* Background Decorative Elements */}
+      <div className="absolute top-10 left-10 w-24 h-24 bg-disruptor-black rounded-full mix-blend-overlay opacity-10 blur-xl animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-32 h-32 bg-disruptor-white border-4 border-disruptor-black rotate-12 opacity-30"></div>
 
-      {/* Brutalist Countdown Timer */}
-      <div className="flex flex-wrap justify-center gap-4 mb-16">
-        {timeBlocks.map((block) => (
-          <div key={block.label} className="bg-disruptor-white border-4 border-disruptor-black p-4 min-w-[100px] flex flex-col items-center neo-shadow">
-            <span className="font-archivo font-black text-[40px] text-disruptor-black leading-none mb-2">
-              {block.value}
-            </span>
-            <span className="font-space text-xs font-bold uppercase tracking-tech text-disruptor-black">
-              {block.label}
-            </span>
-          </div>
-        ))}
-      </div>
+      <motion.div 
+        initial={{ y: 50, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, type: 'spring' }}
+        className="text-center mb-16 relative z-10 flex flex-col items-center"
+      >
+        <h2 className="font-ranchers text-[70px] md:text-[100px] text-disruptor-black uppercase leading-none mb-6 hover:scale-105 transition-transform duration-300" style={{ textShadow: '6px 6px 0 #FFFFFF' }}>
+          HIRE ME NOW
+        </h2>
+        <div className="bg-disruptor-black text-disruptor-volt px-6 py-3 border-2 border-disruptor-white transform -rotate-3 hover:rotate-0 transition-transform duration-300 shadow-[8px_8px_0_0_#FFFFFF]">
+          <p className="font-space font-bold uppercase tracking-widest md:text-lg">
+            // OPEN FOR NEW OPPORTUNITIES //
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Advanced Terminal Component */}
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, delay: 0.2, type: 'spring' }}
+        className="w-full flex justify-center"
+      >
+        <TiltCard className="w-full bg-disruptor-black border-4 border-disruptor-white p-6 md:p-8 relative z-10 shadow-[12px_12px_0_0_rgba(255,255,255,1)] hover:shadow-[16px_16px_0_0_rgba(255,255,255,1)] transition-shadow duration-300 group">
+          <motion.div style={{ translateZ: 20 }}>
+            {/* Scanline Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] z-10 pointer-events-none opacity-30"></div>
+            
+            {/* Terminal Header */}
+            <div className="flex justify-between items-center border-b-2 border-disruptor-white/30 pb-4 mb-6 relative z-20">
+              <span className="font-space text-disruptor-white text-sm md:text-base tracking-widest uppercase font-bold">
+                root@abhinav-system:~
+              </span>
+              <div className="flex gap-2">
+                <div className="w-4 h-4 border-2 border-disruptor-white bg-red-500 animate-pulse"></div>
+                <div className="w-4 h-4 border-2 border-disruptor-white bg-yellow-400"></div>
+                <div className="w-4 h-4 border-2 border-disruptor-white bg-green-500"></div>
+              </div>
+            </div>
+
+            {/* Terminal Body & Data Stream */}
+            <div className="flex justify-between gap-6 relative z-20">
+              <div className="font-space text-disruptor-volt whitespace-pre-wrap min-h-[160px] text-base md:text-xl leading-relaxed flex-1 font-bold">
+                {text}
+                <span className="animate-pulse bg-disruptor-volt text-disruptor-black inline-block w-3 md:w-4 h-6 md:h-7 align-middle ml-2"></span>
+              </div>
+              
+              <div className="hidden md:block font-space text-sm text-disruptor-white/40 whitespace-pre-wrap text-right border-l-2 border-disruptor-white/30 pl-6 leading-relaxed">
+                {hex}
+              </div>
+            </div>
+          </motion.div>
+        </TiltCard>
+      </motion.div>
 
       {/* Integrated Contact Form */}
-      <div className="w-full max-w-2xl bg-disruptor-white border-4 border-disruptor-black flex flex-col sm:flex-row neo-shadow">
+      <motion.div 
+        initial={{ y: 50, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, delay: 0.4, type: 'spring' }}
+        className="w-full max-w-3xl bg-disruptor-white border-4 border-disruptor-black flex flex-col sm:flex-row hover:shadow-[12px_12px_0_0_rgba(0,0,0,1)] transition-shadow duration-300 relative z-10"
+      >
         <input 
           type="email" 
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="ENTER_YOUR_EMAIL_ADDRESS" 
-          className="flex-1 bg-transparent px-6 py-6 font-space text-disruptor-black placeholder:text-disruptor-black/50 focus:outline-none tracking-tech font-bold text-sm sm:text-base border-b-4 sm:border-b-0 sm:border-r-4 border-disruptor-black"
+          placeholder="ENTER_YOUR_EMAIL_FOR_RESUME..." 
+          className="flex-1 bg-transparent px-6 py-8 font-space text-disruptor-black placeholder:text-disruptor-black/50 focus:outline-none tracking-tech font-bold text-sm sm:text-lg border-b-4 sm:border-b-0 sm:border-r-4 border-disruptor-black focus:bg-gray-100 transition-colors"
         />
-        <button 
+        <MagneticButton 
           onClick={handleContact}
-          className="bg-disruptor-black text-disruptor-white px-10 py-6 font-ranchers text-2xl uppercase hover:bg-disruptor-white hover:text-disruptor-black transition-colors duration-200"
+          className="bg-disruptor-black text-disruptor-volt px-10 py-8 font-ranchers text-3xl md:text-4xl uppercase hover:bg-disruptor-volt hover:text-disruptor-black transition-colors duration-200 flex items-center justify-center gap-3 group"
         >
-          CONTACT ME
-        </button>
-      </div>
+          <span>SEND IT</span>
+          <span className="group-hover:translate-x-2 transition-transform duration-200">&rarr;</span>
+        </MagneticButton>
+      </motion.div>
 
     </section>
   );
