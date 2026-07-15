@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 1 },
   visible: { opacity: 1 },
   exit: { 
@@ -15,19 +15,19 @@ const containerVariants = {
   }
 };
 
-const pillarVariants = {
+const pillarVariants: Variants = {
   hidden: { y: 0 },
   visible: { y: 0 },
   exit: (i: number) => ({
     y: i % 2 === 0 ? '-100%' : '100%',
-    transition: { duration: 0.9, ease: [0.77, 0, 0.175, 1] }
+    transition: { duration: 0.9, ease: [0.77, 0, 0.175, 1] as const }
   })
 };
 
-const contentVariants = {
+const contentVariants: Variants = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
-  exit: { opacity: 0, scale: 1.5, filter: 'blur(10px)', transition: { duration: 0.5, ease: "easeIn" } }
+  exit: { opacity: 0, scale: 1.5, filter: 'blur(10px)', transition: { duration: 0.5, ease: "easeIn" as const } }
 };
 
 export default function BrutalistLoader({ onComplete }: { onComplete: () => void }) {
@@ -38,25 +38,29 @@ export default function BrutalistLoader({ onComplete }: { onComplete: () => void
     document.body.style.overflow = 'hidden';
     
     let currentProgress = 0;
+    let isMounted = true;
     const interval = setInterval(() => {
       // Deliberate, mechanical counting (slowed down)
       currentProgress += Math.floor(Math.random() * 3) + 1;
       if (currentProgress >= 100) {
         currentProgress = 100;
-        setProgress(100);
+        if (isMounted) setProgress(100);
         clearInterval(interval);
         
         // Wait a beat at 100% before triggering vault exit
         setTimeout(() => {
-          document.body.style.overflow = 'auto';
-          onComplete(); // Tells page.tsx to unmount, triggering exit animations
+          if (isMounted) {
+            document.body.style.overflow = 'auto';
+            onComplete(); // Tells page.tsx to unmount, triggering exit animations
+          }
         }, 500);
       } else {
-        setProgress(currentProgress);
+        if (isMounted) setProgress(currentProgress);
       }
     }, 60);
 
     return () => {
+      isMounted = false;
       clearInterval(interval);
       document.body.style.overflow = 'auto';
     };

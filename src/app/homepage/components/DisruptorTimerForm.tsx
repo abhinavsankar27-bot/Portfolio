@@ -96,6 +96,10 @@ export default function DisruptorTimerForm() {
   const [lineIndex, setLineIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [hex, setHex] = useState('');
+  
+  // Form state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const terminalLines = [
     "> SYSTEM BOOT SEQUENCE INITIATED...",
@@ -145,29 +149,59 @@ export default function DisruptorTimerForm() {
     }
   }, [lineIndex, charIndex]);
 
-  const handleContact = () => {
+  const handleContact = async () => {
     if (!email) {
       alert("PLEASE ENTER YOUR EMAIL FIRST.");
       return;
     }
-    const subject = encodeURIComponent("Portfolio Inquiry: Let's Collaborate");
-    const template = `Hi Abhinav,
 
-I came across your portfolio and would love to discuss a potential opportunity with you. 
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("PLEASE ENTER A VALID EMAIL ADDRESS.");
+      return;
+    }
 
-Here are a few quick details about the role/project:
-- Company/Project Name: [Insert Name]
-- Role: [Insert Role]
-- Next Steps: [e.g., Let's schedule a brief call next week]
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
 
-Looking forward to connecting!
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "YOUR_ACCESS_KEY_HERE",
+          email: email,
+          subject: "New Portfolio Inquiry from " + email,
+          message: `Someone is reaching out from your portfolio!
 
-Best regards,
-[Your Name]
-Contact Email: ${email}`;
+Their Email: ${email}
 
-    const body = encodeURIComponent(template);
-    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=abhinavsankar27@gmail.com&su=${subject}&body=${body}`, '_blank');
+They clicked the "SEND IT" button in the contact section. Please reach out to them!`,
+          from_name: "Portfolio Brutalist System",
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitStatus('success');
+        setEmail('');
+      } else {
+        setSubmitStatus('error');
+        console.error(result);
+      }
+    } catch (error) {
+      console.error(error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+      
+      // Reset status after 5 seconds
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    }
   };
 
   return (
@@ -247,14 +281,29 @@ Contact Email: ${email}`;
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="ENTER_YOUR_EMAIL_FOR_RESUME..." 
-          className="flex-1 bg-transparent px-6 py-8 font-space text-disruptor-black placeholder:text-disruptor-black/50 focus:outline-none tracking-tech font-bold text-sm sm:text-lg border-b-4 sm:border-b-0 sm:border-r-4 border-disruptor-black focus:bg-gray-100 transition-colors"
+          disabled={isSubmitting || submitStatus === 'success'}
+          className="flex-1 bg-transparent px-6 py-8 font-space text-disruptor-black placeholder:text-disruptor-black/50 focus:outline-none tracking-tech font-bold text-sm sm:text-lg border-b-4 sm:border-b-0 sm:border-r-4 border-disruptor-black focus:bg-gray-100 transition-colors disabled:opacity-50"
         />
         <MagneticButton 
           onClick={handleContact}
-          className="bg-disruptor-black text-disruptor-volt px-10 py-8 font-ranchers text-3xl md:text-4xl uppercase hover:bg-disruptor-volt hover:text-disruptor-black transition-colors duration-200 flex items-center justify-center gap-3 group"
+          disabled={isSubmitting}
+          className={`px-10 py-8 font-ranchers text-3xl md:text-4xl uppercase transition-colors duration-200 flex items-center justify-center gap-3 group border-0 outline-none
+            ${submitStatus === 'success' ? 'bg-green-500 text-disruptor-black' : 
+              submitStatus === 'error' ? 'bg-red-500 text-disruptor-white' : 
+              'bg-disruptor-black text-disruptor-volt hover:bg-disruptor-volt hover:text-disruptor-black'}`}
         >
-          <span>SEND IT</span>
-          <span className="group-hover:translate-x-2 transition-transform duration-200">&rarr;</span>
+          {isSubmitting ? (
+            <span className="animate-pulse">SENDING...</span>
+          ) : submitStatus === 'success' ? (
+            <span>SENT!</span>
+          ) : submitStatus === 'error' ? (
+            <span>FAILED</span>
+          ) : (
+            <>
+              <span>SEND IT</span>
+              <span className="group-hover:translate-x-2 transition-transform duration-200">&rarr;</span>
+            </>
+          )}
         </MagneticButton>
       </motion.div>
 
